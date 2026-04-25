@@ -60,35 +60,16 @@ powershell -c "irm bun.sh/install.ps1 | iex"
 Install `plfetch`:
 
 ```powershell
-$InstallDir = "$env:LOCALAPPDATA\Programs\plfetch"
-$BinDir = "$env:LOCALAPPDATA\Microsoft\WindowsApps"
-New-Item -ItemType Directory -Force $InstallDir, "$InstallDir\bin", "$InstallDir\src", $BinDir | Out-Null
-
-$Base = "https://raw.githubusercontent.com/nestezup/plfetch/main"
-Invoke-WebRequest "$Base/package.json" -OutFile "$InstallDir\package.json"
-Invoke-WebRequest "$Base/README.md" -OutFile "$InstallDir\README.md"
-Invoke-WebRequest "$Base/bin/plfetch.js" -OutFile "$InstallDir\bin\plfetch.js"
-Invoke-WebRequest "$Base/src/core.js" -OutFile "$InstallDir\src\core.js"
-
-@"
-@echo off
-bun "%LOCALAPPDATA%\Programs\plfetch\bin\plfetch.js" %*
-"@ | Set-Content "$BinDir\plfetch.cmd" -Encoding ASCII
-
-plfetch --help
+irm https://raw.githubusercontent.com/nestezup/plfetch/main/install.ps1 | iex
 ```
 
-If `plfetch` is not found, add this folder to the user PATH:
+The installer adds this folder to the user PATH:
 
 ```powershell
-$Path = [Environment]::GetEnvironmentVariable("Path", "User")
-$Add = "$env:LOCALAPPDATA\Microsoft\WindowsApps"
-if ($Path -notlike "*$Add*") {
-  [Environment]::SetEnvironmentVariable("Path", "$Path;$Add", "User")
-}
+%LOCALAPPDATA%\Microsoft\WindowsApps
 ```
 
-Then open a new PowerShell window and run:
+If `plfetch` is not found immediately, open a new PowerShell window and run:
 
 ```powershell
 plfetch onboard
