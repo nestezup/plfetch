@@ -109,8 +109,8 @@ cd plfetch
 ./install.sh
 ```
 
-테스트 실행:
+검증 실행:
 
 ```bash
-npm test
+npm run check
 ```
