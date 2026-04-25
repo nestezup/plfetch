@@ -5,7 +5,7 @@ APP_NAME="plfetch"
 INSTALL_DIR="${PLFETCH_INSTALL_DIR:-$HOME/.local/share/$APP_NAME}"
 BIN_DIR="${PLFETCH_BIN_DIR:-$HOME/.local/bin}"
 BIN_PATH="$BIN_DIR/$APP_NAME"
-REPO_URL="${PLFETCH_REPO_URL:-}"
+REPO_URL="${PLFETCH_REPO_URL:-https://github.com/nestezup/plfetch.git}"
 RAW_BASE_URL="${PLFETCH_RAW_BASE_URL:-}"
 
 need_command() {

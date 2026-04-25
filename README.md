@@ -14,8 +14,7 @@ No third-party packages are required.
 macOS/Linux one-line install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh \
-  | PLFETCH_REPO_URL=https://github.com/nestezup/plfetch.git bash
+curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh | bash
 ```
 
 Install locally from this checkout:
@@ -117,8 +116,7 @@ After pushing this project to GitHub, users can install with one command.
 Using a full repo clone:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh \
-  | PLFETCH_REPO_URL=https://github.com/nestezup/plfetch.git bash
+curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh | bash
 ```
 
 Using only raw files:
