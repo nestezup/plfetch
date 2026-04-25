@@ -18,7 +18,7 @@ import {
   sanitizeFilenamePrefix,
 } from "../src/core.js";
 
-const DEFAULT_PATHS = getDefaultPaths(process.env.HOME ?? process.cwd());
+const DEFAULT_PATHS = getDefaultPaths(process.env.HOME ?? process.env.USERPROFILE ?? process.cwd());
 const DEFAULT_ENV_PATH = DEFAULT_PATHS.envPath;
 const DEFAULT_DOWNLOAD_DIR = DEFAULT_PATHS.downloadDir;
 

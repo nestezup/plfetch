@@ -40,31 +40,58 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## Windows
+## Windows PowerShell
 
-The current installer targets macOS/Linux-style shells. Windows users should use one of these options:
-
-- **Recommended:** install and run from WSL.
-- **Also works for simple use:** Git Bash, if Bun is installed and available there.
-
-WSL install:
-
-```bash
-curl -fsSL https://bun.sh/install | bash
-curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh \
-  | PLFETCH_REPO_URL=https://github.com/nestezup/plfetch.git bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-plfetch onboard
-```
-
-Native PowerShell support is not packaged yet. The future native Windows layout should be:
+Windows users can install from PowerShell. This uses the standard user-local folders:
 
 ```text
 App files: %LOCALAPPDATA%\Programs\plfetch
-Command:   plfetch.cmd
+Command:   %LOCALAPPDATA%\Microsoft\WindowsApps\plfetch.cmd
 Config:    %APPDATA%\plfetch\.env
 Downloads: %USERPROFILE%\Downloads\plfetch
+```
+
+Install Bun first if needed:
+
+```powershell
+powershell -c "irm bun.sh/install.ps1 | iex"
+```
+
+Install `plfetch`:
+
+```powershell
+$InstallDir = "$env:LOCALAPPDATA\Programs\plfetch"
+$BinDir = "$env:LOCALAPPDATA\Microsoft\WindowsApps"
+New-Item -ItemType Directory -Force $InstallDir, "$InstallDir\bin", "$InstallDir\src", $BinDir | Out-Null
+
+$Base = "https://raw.githubusercontent.com/nestezup/plfetch/main"
+Invoke-WebRequest "$Base/package.json" -OutFile "$InstallDir\package.json"
+Invoke-WebRequest "$Base/README.md" -OutFile "$InstallDir\README.md"
+Invoke-WebRequest "$Base/bin/plfetch.js" -OutFile "$InstallDir\bin\plfetch.js"
+Invoke-WebRequest "$Base/src/core.js" -OutFile "$InstallDir\src\core.js"
+
+@"
+@echo off
+bun "%LOCALAPPDATA%\Programs\plfetch\bin\plfetch.js" %*
+"@ | Set-Content "$BinDir\plfetch.cmd" -Encoding ASCII
+
+plfetch --help
+```
+
+If `plfetch` is not found, add this folder to the user PATH:
+
+```powershell
+$Path = [Environment]::GetEnvironmentVariable("Path", "User")
+$Add = "$env:LOCALAPPDATA\Microsoft\WindowsApps"
+if ($Path -notlike "*$Add*") {
+  [Environment]::SetEnvironmentVariable("Path", "$Path;$Add", "User")
+}
+```
+
+Then open a new PowerShell window and run:
+
+```powershell
+plfetch onboard
 ```
 
 ## Onboarding

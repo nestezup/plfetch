@@ -1,5 +1,5 @@
 import { gunzipSync } from "node:zlib";
-import { join } from "node:path";
+import path from "node:path";
 
 export const ENV_ORDER = [
   "PLAUD_BASE_URL",
@@ -294,9 +294,21 @@ export function buildOutputFilename(displayName, fileId, extension) {
   return `${sanitizeFilenamePrefix(displayName)}__${fileId}.${extension}`;
 }
 
-export function getDefaultPaths(homeDir) {
+export function getDefaultPaths(homeDir, options = {}) {
+  const platform = options.platform ?? process.platform;
+
+  if (platform === "win32") {
+    const pathImpl = path.win32;
+    const appData = options.appData ?? process.env.APPDATA ?? pathImpl.join(homeDir, "AppData", "Roaming");
+    const userProfile = options.userProfile ?? process.env.USERPROFILE ?? homeDir;
+    return {
+      envPath: pathImpl.join(appData, "plfetch", ".env"),
+      downloadDir: pathImpl.join(userProfile, "Downloads", "plfetch"),
+    };
+  }
+
   return {
-    envPath: join(homeDir, ".config", "plfetch", ".env"),
-    downloadDir: join(homeDir, "Downloads", "plfetch"),
+    envPath: path.posix.join(homeDir, ".config", "plfetch", ".env"),
+    downloadDir: path.posix.join(homeDir, "Downloads", "plfetch"),
   };
 }

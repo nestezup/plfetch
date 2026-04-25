@@ -87,4 +87,15 @@ test("getDefaultPaths follows common macOS and Linux CLI locations", () => {
     downloadDir: "/Users/alice/Downloads/plfetch",
   });
 });
+
+test("getDefaultPaths follows common Windows CLI locations", () => {
+  expect(getDefaultPaths("C:\\Users\\Alice", {
+    platform: "win32",
+    appData: "C:\\Users\\Alice\\AppData\\Roaming",
+    userProfile: "C:\\Users\\Alice",
+  })).toEqual({
+    envPath: "C:\\Users\\Alice\\AppData\\Roaming\\plfetch\\.env",
+    downloadDir: "C:\\Users\\Alice\\Downloads\\plfetch",
+  });
+});
 });
