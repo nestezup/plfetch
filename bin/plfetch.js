@@ -1,5 +1,5 @@
-#!/usr/bin/env bun
-import { mkdir, rename, writeFile } from "node:fs/promises";
+#!/usr/bin/env node
+import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 
@@ -72,7 +72,7 @@ async function onboard(args) {
     console.error("Paste a copied Plaud cURL into stdin, then press Ctrl-D.");
   }
 
-  const curlText = await Bun.stdin.text();
+  const curlText = await readStdin();
   const env = parseCopiedCurl(curlText);
   await mkdir(dirname(envPath), { recursive: true });
 
@@ -269,7 +269,7 @@ async function createClient(envPathOption) {
     throw new Error(`missing env file: ${envPath}. Run plfetch onboard first.`);
   }
 
-  const env = parseEnvText(await Bun.file(envPath).text());
+  const env = parseEnvText(await readFile(envPath, "utf8"));
   for (const key of ["PLAUD_BASE_URL", "PLAUD_AUTHORIZATION", "PLAUD_X_DEVICE_ID", "PLAUD_X_PLD_TAG", "PLAUD_X_PLD_USER"]) {
     if (!env[key]) {
       throw new Error(`missing ${key} in ${envPath}`);
@@ -338,4 +338,12 @@ function printJson(value) {
   console.log(JSON.stringify(value, null, 2));
 }
 
-await main(Bun.argv.slice(2));
+async function readStdin() {
+  const chunks = [];
+  for await (const chunk of process.stdin) {
+    chunks.push(Buffer.from(chunk));
+  }
+  return Buffer.concat(chunks).toString("utf8");
+}
+
+await main(process.argv.slice(2));

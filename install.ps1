@@ -23,14 +23,14 @@ function Download-File {
 }
 
 try {
-  Require-Command "bun"
+  Require-Command "node"
 }
 catch {
   Write-Error @"
-missing required command: bun
+missing required command: node
 
-Install Bun first:
-  powershell -c "irm bun.sh/install.ps1 | iex"
+Install Node.js first:
+  https://nodejs.org/
 "@
   exit 1
 }
@@ -51,7 +51,7 @@ Download-File "$RawBaseUrl/src/core.js" (Join-Path $InstallDir "src\core.js")
 $CmdPath = Join-Path $BinDir "$AppName.cmd"
 @"
 @echo off
-bun "$InstallDir\bin\plfetch.js" %*
+node "$InstallDir\bin\plfetch.js" %*
 "@ | Set-Content -Path $CmdPath -Encoding ASCII
 
 $UserPath = [Environment]::GetEnvironmentVariable("Path", "User")

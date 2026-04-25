@@ -1,5 +1,6 @@
 import { gzipSync } from "node:zlib";
-import { describe, expect, test } from "bun:test";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
 
 import {
   buildOutputFilename,
@@ -18,7 +19,7 @@ test("parseCopiedCurl extracts only the Plaud credentials needed by the CLI", ()
     -H 'x-pld-user: user-1' \\
     -H 'sec-fetch-site: same-site'`);
 
-  expect(env).toEqual({
+  assert.deepEqual(env, {
     PLAUD_BASE_URL: "https://api-apne1.plaud.ai",
     PLAUD_AUTHORIZATION: "bearer token-value",
     PLAUD_X_DEVICE_ID: "device-1",
@@ -46,7 +47,7 @@ test("extractContentLinks groups Plaud detail content links by usable content ty
     },
   });
 
-  expect(links).toEqual({
+  assert.deepEqual(links, {
     transcript: [
       { type: "transaction", title: "", url: "https://s3/trans_result.json.gz" },
     ],
@@ -72,28 +73,29 @@ test("parseTranscriptPayload accepts gzip transcript arrays", () => {
   ];
   const parsed = parseTranscriptPayload(gzipSync(Buffer.from(JSON.stringify(segments))));
 
-  expect(parsed).toEqual(segments);
+  assert.deepEqual(parsed, segments);
 });
 
 test("buildOutputFilename prefixes saved files with the Plaud display name", () => {
-  expect(
+  assert.equal(
     buildOutputFilename("04-23 강의: AI 에이전트", "file-123", "ogg"),
-  ).toBe("04-23 강의_ AI 에이전트__file-123.ogg");
+    "04-23 강의_ AI 에이전트__file-123.ogg",
+  );
 });
 
 test("getDefaultPaths follows common macOS and Linux CLI locations", () => {
-  expect(getDefaultPaths("/Users/alice")).toEqual({
+  assert.deepEqual(getDefaultPaths("/Users/alice"), {
     envPath: "/Users/alice/.config/plfetch/.env",
     downloadDir: "/Users/alice/Downloads/plfetch",
   });
 });
 
 test("getDefaultPaths follows common Windows CLI locations", () => {
-  expect(getDefaultPaths("C:\\Users\\Alice", {
+  assert.deepEqual(getDefaultPaths("C:\\Users\\Alice", {
     platform: "win32",
     appData: "C:\\Users\\Alice\\AppData\\Roaming",
     userProfile: "C:\\Users\\Alice",
-  })).toEqual({
+  }), {
     envPath: "C:\\Users\\Alice\\AppData\\Roaming\\plfetch\\.env",
     downloadDir: "C:\\Users\\Alice\\Downloads\\plfetch",
   });

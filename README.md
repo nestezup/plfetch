@@ -1,10 +1,10 @@
 # plfetch
 
-Local Bun CLI for fetching Plaud Cloud recordings, transcripts, and summaries.
+Local Node.js CLI for fetching Plaud Cloud recordings, transcripts, and summaries.
 
 ## Requirements
 
-- Bun 1.2+
+- Node.js 22+
 - A logged-in Plaud Cloud browser session for onboarding
 
 No third-party packages are required.
@@ -51,10 +51,10 @@ Config:    %APPDATA%\plfetch\.env
 Downloads: %USERPROFILE%\Downloads\plfetch
 ```
 
-Install Bun first if needed:
+Install Node.js first if needed:
 
 ```powershell
-powershell -c "irm bun.sh/install.ps1 | iex"
+winget install OpenJS.NodeJS.LTS
 ```
 
 Install `plfetch`:

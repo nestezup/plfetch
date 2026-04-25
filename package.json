@@ -7,11 +7,10 @@
     "plfetch": "./bin/plfetch.js"
   },
   "scripts": {
-    "test": "bun test"
+    "test": "node --test"
   },
-  "trustedDependencies": [],
   "engines": {
-    "bun": ">=1.2"
+    "node": ">=22"
   },
   "license": "UNLICENSED"
 }

@@ -37,12 +37,12 @@ install_from_raw_base() {
   curl -fsSL "$RAW_BASE_URL/src/core.js" -o "$INSTALL_DIR/src/core.js"
 }
 
-if ! command -v bun >/dev/null 2>&1; then
+if ! command -v node >/dev/null 2>&1; then
   cat >&2 <<'EOF'
-missing required command: bun
+missing required command: node
 
-Install Bun first:
-  curl -fsSL https://bun.sh/install | bash
+Install Node.js first:
+  https://nodejs.org/
 EOF
   exit 1
 fi
