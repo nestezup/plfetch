@@ -11,6 +11,13 @@ No third-party packages are required.
 
 ## Setup
 
+macOS/Linux one-line install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh \
+  | PLFETCH_REPO_URL=https://github.com/nestezup/plfetch.git bash
+```
+
 Install locally from this checkout:
 
 ```bash
