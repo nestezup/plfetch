@@ -72,7 +72,14 @@ Downloads:
   $HOME/Downloads/$APP_NAME
 
 If '$APP_NAME' is not found, add this to your shell profile:
-  export PATH="\$HOME/.local/bin:\$PATH"
+  echo 'export PATH="\$HOME/.local/bin:\$PATH"' >> ~/.zshrc
+  source ~/.zshrc
+
+Windows users:
+  This installer is for macOS/Linux shells. On Windows, run it inside WSL or Git Bash.
+  If using WSL, add this inside WSL:
+    echo 'export PATH="\$HOME/.local/bin:\$PATH"' >> ~/.bashrc
+    source ~/.bashrc
 
 Next:
   $APP_NAME onboard

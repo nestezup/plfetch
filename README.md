@@ -33,6 +33,40 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
+For Bash shells:
+
+```bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+## Windows
+
+The current installer targets macOS/Linux-style shells. Windows users should use one of these options:
+
+- **Recommended:** install and run from WSL.
+- **Also works for simple use:** Git Bash, if Bun is installed and available there.
+
+WSL install:
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh \
+  | PLFETCH_REPO_URL=https://github.com/nestezup/plfetch.git bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+plfetch onboard
+```
+
+Native PowerShell support is not packaged yet. The future native Windows layout should be:
+
+```text
+App files: %LOCALAPPDATA%\Programs\plfetch
+Command:   plfetch.cmd
+Config:    %APPDATA%\plfetch\.env
+Downloads: %USERPROFILE%\Downloads\plfetch
+```
+
 ## Onboarding
 
 From Plaud Cloud, copy a request as cURL:
