@@ -1,0 +1,17 @@
+{
+  "name": "plfetch",
+  "version": "0.1.0",
+  "description": "Local CLI for fetching Plaud Cloud recordings and generated content.",
+  "type": "module",
+  "bin": {
+    "plfetch": "./bin/plfetch.js"
+  },
+  "scripts": {
+    "test": "bun test"
+  },
+  "trustedDependencies": [],
+  "engines": {
+    "bun": ">=1.2"
+  },
+  "license": "UNLICENSED"
+}
