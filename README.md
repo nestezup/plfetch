@@ -2,6 +2,8 @@
 
 Local Node.js CLI for fetching Plaud Cloud recordings, transcripts, and summaries.
 
+[한국어 README](./README.ko.md)
+
 ## Install
 
 Requirements:
