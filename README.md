@@ -2,28 +2,38 @@
 
 Local Node.js CLI for fetching Plaud Cloud recordings, transcripts, and summaries.
 
-## Requirements
+## Install
+
+Requirements:
 
 - Node.js 22+
 - A logged-in Plaud Cloud browser session for onboarding
 
-No third-party packages are required.
-
-## Setup
-
-macOS/Linux one-line install:
+macOS/Linux:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh | bash
 ```
 
-Install locally from this checkout:
+Windows PowerShell:
 
-```bash
-./install.sh
+```powershell
+irm https://raw.githubusercontent.com/nestezup/plfetch/main/install.ps1 | iex
 ```
 
-The installer places files in common CLI locations:
+Install Node.js first if needed:
+
+```bash
+# macOS/Linux: install from https://nodejs.org/
+```
+
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+## Installed Locations
+
+macOS/Linux:
 
 ```text
 App files: ~/.local/share/plfetch
@@ -32,23 +42,7 @@ Config:    ~/.config/plfetch/.env
 Downloads: ~/Downloads/plfetch
 ```
 
-If `plfetch` is not found after install, add `~/.local/bin` to your shell path:
-
-```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
-source ~/.zshrc
-```
-
-For Bash shells:
-
-```bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-## Windows PowerShell
-
-Windows users can install from PowerShell. This uses the standard user-local folders:
+Windows:
 
 ```text
 App files: %LOCALAPPDATA%\Programs\plfetch
@@ -57,33 +51,23 @@ Config:    %APPDATA%\plfetch\.env
 Downloads: %USERPROFILE%\Downloads\plfetch
 ```
 
-Install Node.js first if needed:
+If `plfetch` is not found after install, open a new terminal. On macOS/Linux, add this if needed:
 
-```powershell
-winget install OpenJS.NodeJS.LTS
+```bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
 ```
 
-Install `plfetch`:
+For Bash:
 
-```powershell
-irm https://raw.githubusercontent.com/nestezup/plfetch/main/install.ps1 | iex
-```
-
-The installer adds this folder to the user PATH:
-
-```powershell
-%LOCALAPPDATA%\Microsoft\WindowsApps
-```
-
-If `plfetch` is not found immediately, open a new PowerShell window and run:
-
-```powershell
-plfetch onboard
+```bash
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ## Onboarding
 
-From Plaud Cloud, copy a request as cURL:
+`plfetch` needs Plaud Web request headers from your logged-in browser session. It stores them locally in `.env`; it does not write them to your global shell environment.
 
 1. Open `https://web.plaud.ai`.
 2. Open DevTools > Network.
@@ -95,7 +79,7 @@ From Plaud Cloud, copy a request as cURL:
 plfetch onboard
 ```
 
-Paste the copied cURL, then press `Ctrl-D`. This writes `~/.config/plfetch/.env` and backs up an existing `.env`.
+Paste the copied cURL, then press `Ctrl-D`.
 
 ## Commands
 
@@ -107,23 +91,24 @@ plfetch transcript <fileId>
 plfetch summary <fileId>
 ```
 
-Saved files go to `~/Downloads/plfetch` by default. Use `--output-dir DIR` to change it.
-
-## GitHub Install Pattern
-
-After pushing this project to GitHub, users can install with one command.
-
-Using a full repo clone:
+Saved files go to the default downloads folder shown above. Use `--output-dir DIR` to change it:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh | bash
+plfetch download <fileId> --output-dir ~/Desktop/plfetch
 ```
 
-Using only raw files:
+## Development
+
+Install from a local checkout:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/nestezup/plfetch/main/install.sh \
-  | PLFETCH_RAW_BASE_URL=https://raw.githubusercontent.com/nestezup/plfetch/main bash
+git clone https://github.com/nestezup/plfetch.git
+cd plfetch
+./install.sh
 ```
 
-The clone method is usually better because it preserves the full project and is easier to update later.
+Run tests:
+
+```bash
+npm test
+```
